@@ -6,7 +6,13 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://kishushubonifacemb
 
 
 
-
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  tls: true,
+  tlsAllowInvalidHostnames: true,
+  
+};
 
 
 

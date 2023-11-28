@@ -5,10 +5,16 @@ const path = require('path');
 const connectDB = require('./src/config/config');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
+const userRoute = require('./src/routes/userRoute');
+const errorHandler = require('./src/middleware/errorHandler');
+
 
 connectDB();
 
 app.use(express.json());
+app.use(errorHandler);
+
+app.use('/api/users', userRoute);
 
 
 
