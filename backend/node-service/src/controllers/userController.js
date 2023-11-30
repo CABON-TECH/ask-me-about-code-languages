@@ -72,8 +72,36 @@ const registerUser = asyncHandler(async (req, res) => {
 
     })
 
+
+//updating user
+const updateUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  const { name, email } = req.body;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  user.name = name || user.name;
+  user.email = email || user.email;
+
+  const updatedUser = await user.save();
+
+  res.json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    createdAt: updatedUser.createdAt,
+  });
+});
+
+
 module.exports = {
   registerUser,
   loginUser,
+  updateUser,
   
 };
