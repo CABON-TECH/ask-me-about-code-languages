@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../src/models/userModel');
+const User = require('../models/user');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 
@@ -18,6 +18,8 @@ const protect = asyncHandler(async (req, res, next) => {
                 res.status(401);
                 throw new Error('Not authorized, user not found');
             }
+
+	    next ();
 
 	 } catch(error){
             console.error(error);
