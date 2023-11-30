@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
+const mongoose = require('mongoose');
 
 
 
@@ -98,10 +99,31 @@ const updateUser = asyncHandler(async (req, res) => {
   });
 });
 
+// Delete user
+const deleteUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+
+  // Validate if userId is a valid ObjectId
+  if (!mongoose.isValidObjectId(userId)) {
+    res.status(400);
+    throw new Error('Invalid user ID');
+  }
+
+  // Find the user by ID and remove
+  const user = await User.findByIdAndDelete(userId);
+
+  if (user) {
+    res.json({ message: 'User deleted successfully' });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
 
 module.exports = {
   registerUser,
   loginUser,
   updateUser,
-  
+  deleteUser,
 };
