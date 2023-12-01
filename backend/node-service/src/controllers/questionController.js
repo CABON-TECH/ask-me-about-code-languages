@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Question = require('../models/questionModel');
+const openaiController = require('./openaiController');
 
 // Submit a question
 const submitQuestion = asyncHandler(async (req, res) => {
@@ -23,7 +24,14 @@ const submitQuestion = asyncHandler(async (req, res) => {
     user: userId,
   });
 
-  res.status(201).json(newQuestion);
+  // Get answer from OpenAI API
+  const answer = await openaiController.getOpenAIAnswer(question);
+	
+
+  res.status(201).json({
+    question:newQuestion,
+    answer,
+  });
 });
 
 module.exports = {
